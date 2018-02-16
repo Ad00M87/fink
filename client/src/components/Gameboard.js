@@ -25,6 +25,8 @@ class Gameboard extends React.Component {
   }
 }
 
+//TODO:create controller to get cards.
+
 const styles = {
   container: {
     display: 'flex',
