@@ -2,6 +2,18 @@ import React from 'react'
 import { Grid, Header } from 'semantic-ui-react'
 
 class Gameboard extends React.Component {
+  state = {
+    cards: []
+  }
+
+  componentDidMount() {
+    axios.get('/api/cards')
+      .then( res => {
+        debugger
+        this.setState({ cards: res.data })
+      })
+  }
+
   render() {
     return(
       <Grid columns={3}>
