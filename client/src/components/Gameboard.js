@@ -1,5 +1,6 @@
 import React from 'react'
-import { Grid, Header } from 'semantic-ui-react'
+import axios from 'axios'
+import { Grid, Header, Card } from 'semantic-ui-react'
 
 class Gameboard extends React.Component {
   state = {
@@ -17,19 +18,34 @@ class Gameboard extends React.Component {
   render() {
     return(
       <Grid columns={3}>
-        <Grid.Column textAlign='center' width={3} style={{backgroundColor: 'green', height: '80vh'}}>
+        <Grid.Column textAlign='center' width={3} style={{backgroundColor: 'green'}}>
           <Header>Player Two</Header>
         </Grid.Column>
-        <Grid.Column textAlign='center' width={10} style={{height: '80vh'}}>
-          <Grid.Row textAlign='center' style={{backgroundColor: 'red', height: '20vh'}}>
+        <Grid.Column textAlign='center' width={10}>
+          <Grid.Row textAlign='center' style={{backgroundColor: 'red'}}>
             <Header>Player Three</Header>
           </Grid.Row>
-          <Grid.Row style={{height: '40vh'}}></Grid.Row>
-          <Grid.Row textAlign='center' style={{backgroundColor: 'yellow', height: '20vh'}}>
+          <Grid.Row>
+            <Card.Group itemsPerRow={6}>
+              {this.state.cards.map( card => {
+                return(
+                <Card>
+                  <Card.Header>
+                    {card.name} of {card.suit}
+                  </Card.Header>
+                  <Card.Description>
+                    Color: {card.color} Value: {card.value}
+                  </Card.Description>
+                </Card>
+              )
+              })}
+            </Card.Group>
+          </Grid.Row>
+          <Grid.Row textAlign='center' style={{backgroundColor: 'yellow'}}>
             <Header>Player One</Header>
           </Grid.Row>
         </Grid.Column>
-        <Grid.Column textAlign='center' width={3} style={{backgroundColor: 'blue', height: '80vh'}}>
+        <Grid.Column textAlign='center' width={3} style={{backgroundColor: 'blue'}}>
           <Header>Player Four</Header>
         </Grid.Column>
       </Grid>
