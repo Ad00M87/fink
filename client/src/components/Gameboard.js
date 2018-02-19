@@ -119,22 +119,8 @@ class Gameboard extends React.Component {
         <Grid columns={3}>
           <Grid.Column textAlign='center' width={3} style={{backgroundColor: 'green'}}>
             <Header>Player Two</Header>
-            {this.state.playerTwo.map( card => {
-              let name = `${card.name} of ${card.suit}`
-              return(
-                <Image
-                  key={card.id}
-                  src={images[`${card.image}`]}
-                  size='tiny'
-                  alt={name}
-                />
-              )
-            })}
-          </Grid.Column>
-          <Grid.Column textAlign='center' width={10}>
-            <Grid.Row textAlign='center' style={{backgroundColor: 'red'}}>
-              <Header>Player Three</Header>
-              {this.state.playerThree.map( card => {
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              {this.state.playerTwo.map( card => {
                 let name = `${card.name} of ${card.suit}`
                 return(
                   <Image
@@ -145,6 +131,24 @@ class Gameboard extends React.Component {
                   />
                 )
               })}
+            </div>
+          </Grid.Column>
+          <Grid.Column textAlign='center' width={10}>
+            <Grid.Row textAlign='center' style={{backgroundColor: 'red'}}>
+              <Header>Player Three</Header>
+              <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                {this.state.playerThree.map( card => {
+                  let name = `${card.name} of ${card.suit}`
+                  return(
+                    <Image
+                      key={card.id}
+                      src={images[`${card.image}`]}
+                      size='tiny'
+                      alt={name}
+                    />
+                  )
+                })}
+              </div>
             </Grid.Row>
             <Grid.Row>
               {this.state.showingCard.map( card => {
@@ -162,7 +166,25 @@ class Gameboard extends React.Component {
             </Grid.Row>
             <Grid.Row textAlign='center' style={{backgroundColor: 'yellow'}}>
               <Header>Player One</Header>
-              {this.state.playerOne.map( card => {
+              <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                {this.state.playerOne.map( card => {
+                  let name = `${card.name} of ${card.suit}`
+                  return(
+                    <Image
+                      key={card.id}
+                      src={images[`${card.image}`]}
+                      size='tiny'
+                      alt={name}
+                    />
+                  )
+                })}
+              </div>
+            </Grid.Row>
+          </Grid.Column>
+          <Grid.Column textAlign='center' width={3} style={{backgroundColor: 'blue'}}>
+            <Header>Player Four</Header>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              {this.state.playerFour.map( card => {
                 let name = `${card.name} of ${card.suit}`
                 return(
                   <Image
@@ -173,21 +195,7 @@ class Gameboard extends React.Component {
                   />
                 )
               })}
-            </Grid.Row>
-          </Grid.Column>
-          <Grid.Column textAlign='center' width={3} style={{backgroundColor: 'blue'}}>
-            <Header>Player Four</Header>
-            {this.state.playerFour.map( card => {
-              let name = `${card.name} of ${card.suit}`
-              return(
-                <Image
-                  key={card.id}
-                  src={images[`${card.image}`]}
-                  size='tiny'
-                  alt={name}
-                />
-              )
-            })}
+            </div>
           </Grid.Column>
         </Grid>
       )
