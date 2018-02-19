@@ -33,14 +33,44 @@ class Gameboard extends React.Component {
 
   roundDeal = () => {
     let { round, playerOne, playerTwo, playerThree, playerFour, showingCard } = this.state;
-    playerOne.push(this.state.cards[round])
-    playerTwo.push(this.state.cards[round + 1])
-    playerThree.push(this.state.cards[round + 2])
-    playerFour.push(this.state.cards[round + 3])
-    showingCard.push(this.state.cards[round + 4])
+    let count = 0
+    let i
+    for (i = 0; i < round; i++) {
+      playerOne.push(this.state.cards[count])
+      count += 1
+    }
+    for (i = 0; i < round; i++) {
+      playerTwo.push(this.state.cards[count])
+      count += 1
+    }
+    for (i = 0; i < round; i++) {
+      playerThree.push(this.state.cards[count])
+      count += 1
+    }
+    for (i = 0; i < round; i++) {
+      playerFour.push(this.state.cards[count])
+      count += 1
+    }
+    // playerTwo.push(this.state.cards[round + 1])
+    // playerThree.push(this.state.cards[round + 2])
+    // playerFour.push(this.state.cards[round + 3])
+    showingCard.push(this.state.cards[count])
     this.setState({
       dealing: true,
     })
+  }
+
+  nextRound = async () => {
+    await this.setState({
+      round: this.state.round + 1,
+      cards: this.shuffleArray(this.state.cards),
+      playerOne: [],
+      playerTwo: [],
+      playerThree: [],
+      playerFour: [],
+      showingCard: [],
+    })
+    this.roundDeal()
   }
 
   render() {
@@ -79,20 +109,19 @@ class Gameboard extends React.Component {
               })}
             </Grid.Row>
             <Grid.Row>
-              <Card.Group itemsPerRow={6}>
-                {this.state.showingCard.map( card => {
-                  return(
-                    <Card>
-                      <Card.Header>
-                        {card.name} of {card.suit}
-                      </Card.Header>
-                      <Card.Description>
-                        Color: {card.color} Value: {card.value}
-                      </Card.Description>
-                    </Card>
-                  )
-                })}
-              </Card.Group>
+              {this.state.showingCard.map( card => {
+                return(
+                  <Card>
+                    <Card.Header>
+                      {card.name} of {card.suit}
+                    </Card.Header>
+                    <Card.Description>
+                      Color: {card.color} Value: {card.value}
+                    </Card.Description>
+                  </Card>
+                )
+              })}
+              <Button onClick={this.nextRound}>Next Round</Button>
             </Grid.Row>
             <Grid.Row textAlign='center' style={{backgroundColor: 'yellow'}}>
               <Header>Player One</Header>
