@@ -12,6 +12,7 @@ class Gameboard extends React.Component {
     playerThree: [],
     playerFour: [],
     showingCard: [],
+    decending: false,
   }
 
   componentDidMount = async () => {
@@ -32,7 +33,15 @@ class Gameboard extends React.Component {
   }
 
   roundDeal = () => {
-    let { round, playerOne, playerTwo, playerThree, playerFour, showingCard } = this.state;
+    let {
+      round,
+      playerOne,
+      playerTwo,
+      playerThree,
+      playerFour,
+      showingCard,
+      decending
+    } = this.state;
     let count = 0
     let i
     for (i = 0; i < round; i++) {
@@ -61,15 +70,27 @@ class Gameboard extends React.Component {
   }
 
   nextRound = async () => {
-    await this.setState({
-      round: this.state.round + 1,
-      cards: this.shuffleArray(this.state.cards),
-      playerOne: [],
-      playerTwo: [],
-      playerThree: [],
-      playerFour: [],
-      showingCard: [],
-    })
+    if ( this.state.decending ) {
+      await this.setState({
+        round: this.state.round - 1,
+        cards: this.shuffleArray(this.state.cards),
+        playerOne: [],
+        playerTwo: [],
+        playerThree: [],
+        playerFour: [],
+        showingCard: [],
+      })
+    } else {
+      await this.setState({
+        round: this.state.round + 1,
+        cards: this.shuffleArray(this.state.cards),
+        playerOne: [],
+        playerTwo: [],
+        playerThree: [],
+        playerFour: [],
+        showingCard: [],
+      })
+    }
     this.roundDeal()
   }
 
