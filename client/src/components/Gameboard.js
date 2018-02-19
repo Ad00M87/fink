@@ -1,6 +1,17 @@
 import React from 'react'
 import axios from 'axios'
-import { Grid, Header, Card, Button } from 'semantic-ui-react'
+import { Grid, Header, Card, Button, Image } from 'semantic-ui-react'
+
+
+function importAll(r) {
+  let images = {};
+  r.keys().map((item, index) => { images[item.replace('./', '')] = r(item); });
+  return images;
+}
+
+const images = importAll(require.context('../../images', false, /\.(png|jpe?g|svg)$/));
+
+// const images = importAll(require.context('../../images', false, /s\.png$/));
 
 class Gameboard extends React.Component {
   state = {
@@ -70,6 +81,7 @@ class Gameboard extends React.Component {
   }
 
   nextRound = async () => {
+    await this.descending()
     if ( this.state.decending ) {
       await this.setState({
         round: this.state.round - 1,
@@ -94,22 +106,28 @@ class Gameboard extends React.Component {
     this.roundDeal()
   }
 
+  descending = () => {
+    if (this.state.round === 12) {
+      this.setState({ decending: true })
+    }
+  }
+
   render() {
+    console.log(images)
     if (this.state.dealing) {
       return(
         <Grid columns={3}>
           <Grid.Column textAlign='center' width={3} style={{backgroundColor: 'green'}}>
             <Header>Player Two</Header>
             {this.state.playerTwo.map( card => {
+              let name = `${card.name} of ${card.suit}`
               return(
-                <Card>
-                  <Card.Header>
-                    {card.name} of {card.suit}
-                  </Card.Header>
-                  <Card.Description>
-                    Color: {card.color} Value: {card.value}
-                  </Card.Description>
-                </Card>
+                <Image
+                  key={card.id}
+                  src={images[`${card.image}`]}
+                  size='tiny'
+                  alt={name}
+                />
               )
             })}
           </Grid.Column>
@@ -117,29 +135,27 @@ class Gameboard extends React.Component {
             <Grid.Row textAlign='center' style={{backgroundColor: 'red'}}>
               <Header>Player Three</Header>
               {this.state.playerThree.map( card => {
+                let name = `${card.name} of ${card.suit}`
                 return(
-                  <Card>
-                    <Card.Header>
-                      {card.name} of {card.suit}
-                    </Card.Header>
-                    <Card.Description>
-                      Color: {card.color} Value: {card.value}
-                    </Card.Description>
-                  </Card>
+                  <Image
+                    key={card.id}
+                    src={images[`${card.image}`]}
+                    size='tiny'
+                    alt={name}
+                  />
                 )
               })}
             </Grid.Row>
             <Grid.Row>
               {this.state.showingCard.map( card => {
+                let name = `${card.name} of ${card.suit}`
                 return(
-                  <Card>
-                    <Card.Header>
-                      {card.name} of {card.suit}
-                    </Card.Header>
-                    <Card.Description>
-                      Color: {card.color} Value: {card.value}
-                    </Card.Description>
-                  </Card>
+                  <Image
+                    key={card.id}
+                    src={images[`${card.image}`]}
+                    size='tiny'
+                    alt={name}
+                  />
                 )
               })}
               <Button onClick={this.nextRound}>Next Round</Button>
@@ -147,15 +163,14 @@ class Gameboard extends React.Component {
             <Grid.Row textAlign='center' style={{backgroundColor: 'yellow'}}>
               <Header>Player One</Header>
               {this.state.playerOne.map( card => {
+                let name = `${card.name} of ${card.suit}`
                 return(
-                  <Card>
-                    <Card.Header>
-                      {card.name} of {card.suit}
-                    </Card.Header>
-                    <Card.Description>
-                      Color: {card.color} Value: {card.value}
-                    </Card.Description>
-                  </Card>
+                  <Image
+                    key={card.id}
+                    src={images[`${card.image}`]}
+                    size='tiny'
+                    alt={name}
+                  />
                 )
               })}
             </Grid.Row>
@@ -163,15 +178,14 @@ class Gameboard extends React.Component {
           <Grid.Column textAlign='center' width={3} style={{backgroundColor: 'blue'}}>
             <Header>Player Four</Header>
             {this.state.playerFour.map( card => {
+              let name = `${card.name} of ${card.suit}`
               return(
-                <Card>
-                  <Card.Header>
-                    {card.name} of {card.suit}
-                  </Card.Header>
-                  <Card.Description>
-                    Color: {card.color} Value: {card.value}
-                  </Card.Description>
-                </Card>
+                <Image
+                  key={card.id}
+                  src={images[`${card.image}`]}
+                  size='tiny'
+                  alt={name}
+                />
               )
             })}
           </Grid.Column>

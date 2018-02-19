@@ -7,11 +7,12 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 names = ['2','3','4','5','6','7','8','9','10','Jack','Queen','King','Ace']
-suits = ['Club','Spade','Heart','Diamond']
+suits = ['Clubs','Spades','Hearts','Diamonds']
 
 names.each_with_index do |value, i|
+  image =
   suits.each do |suit|
-    if suit === 'Club' || suit === 'Spade'
+    if suit === 'Clubs' || suit === 'Spades'
       color = 'Black'
     else
       color = 'Red'
@@ -20,7 +21,8 @@ names.each_with_index do |value, i|
       name: value,
       value: i + 2,
       suit: suit,
-      color: color
+      color: color,
+      image: "#{value.downcase}_of_#{suit.downcase}.png"
     )
   end
 end
