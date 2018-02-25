@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import { Grid, Header, Card, Button, Image } from 'semantic-ui-react'
+import { Grid, Header, Card, Button, Image, Segment } from 'semantic-ui-react'
 
 
 function importAll(r) {
@@ -24,6 +24,7 @@ class Gameboard extends React.Component {
     playerFour: [],
     showingCard: [],
     decending: false,
+    started: false,
   }
 
   componentDidMount = async () => {
@@ -31,6 +32,11 @@ class Gameboard extends React.Component {
       .then( res => {
         this.setState({ cards: this.shuffleArray(res.data) })
       })
+  }
+
+  startGame = () => {
+    this.setState({ started: true })
+    this.roundDeal()
   }
 
   shuffleArray = (array) => {
@@ -112,104 +118,320 @@ class Gameboard extends React.Component {
     }
   }
 
-  render() {
-    console.log(images)
-    if (this.state.dealing) {
-      return(
-        <Grid columns={3}>
-          <Grid.Column textAlign='center' width={3} style={{backgroundColor: 'green'}}>
-            <Header>Player Two</Header>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              {this.state.playerTwo.map( card => {
-                let name = `${card.name} of ${card.suit}`
-                return(
-                  <Image
-                    key={card.id}
-                    src={images[`${card.image}`]}
-                    size='tiny'
-                    alt={name}
-                  />
-                )
-              })}
-            </div>
-          </Grid.Column>
-          <Grid.Column textAlign='center' width={10}>
-            <Grid.Row textAlign='center' style={{backgroundColor: 'red'}}>
-              <Header>Player Three</Header>
-              <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                {this.state.playerThree.map( card => {
-                  let name = `${card.name} of ${card.suit}`
-                  return(
-                    <Image
-                      key={card.id}
-                      src={images[`${card.image}`]}
-                      size='tiny'
-                      alt={name}
-                    />
-                  )
-                })}
-              </div>
-            </Grid.Row>
-            <Grid.Row>
-              {this.state.showingCard.map( card => {
-                let name = `${card.name} of ${card.suit}`
-                return(
-                  <Image
-                    key={card.id}
-                    src={images[`${card.image}`]}
-                    size='tiny'
-                    alt={name}
-                  />
-                )
-              })}
-              <Button onClick={this.nextRound}>Next Round</Button>
-            </Grid.Row>
-            <Grid.Row textAlign='center' style={{backgroundColor: 'yellow'}}>
-              <Header>Player One</Header>
-              <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                {this.state.playerOne.map( card => {
-                  let name = `${card.name} of ${card.suit}`
-                  return(
-                    <Image
-                      key={card.id}
-                      src={images[`${card.image}`]}
-                      size='tiny'
-                      alt={name}
-                    />
-                  )
-                })}
-              </div>
-            </Grid.Row>
-          </Grid.Column>
-          <Grid.Column textAlign='center' width={3} style={{backgroundColor: 'blue'}}>
-            <Header>Player Four</Header>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              {this.state.playerFour.map( card => {
-                let name = `${card.name} of ${card.suit}`
-                return(
-                  <Image
-                    key={card.id}
-                    src={images[`${card.image}`]}
-                    size='tiny'
-                    alt={name}
-                  />
-                )
-              })}
-            </div>
-          </Grid.Column>
-        </Grid>
-      )
-    } else {
-      return(
-        <Button onClick={this.roundDeal}>Deal Round</Button>
-      )
-    }
+//   render() {
+//     console.log(images)
+//     if (this.state.dealing) {
+//       return(
+//         <Grid columns={3}>
+//           <Grid.Column textAlign='center' width={3} style={{backgroundColor: 'green'}}>
+//             <Header>Player Two</Header>
+            // <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            //   {this.state.playerTwo.map( card => {
+            //     let name = `${card.name} of ${card.suit}`
+            //     return(
+            //       <Image
+            //         key={card.id}
+            //         src={images[`${card.image}`]}
+            //         size='tiny'
+            //         alt={name}
+            //       />
+            //     )
+            //   })}
+            // </div>
+//           </Grid.Column>
+//           <Grid.Column textAlign='center' width={10}>
+//             <Grid.Row textAlign='center' style={{backgroundColor: 'red'}}>
+//               <Header>Player Three</Header>
+              // <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+              //   {this.state.playerThree.map( card => {
+              //     let name = `${card.name} of ${card.suit}`
+              //     return(
+              //       <Image
+              //         key={card.id}
+              //         src={images[`${card.image}`]}
+              //         size='tiny'
+              //         alt={name}
+              //       />
+              //     )
+              //   })}
+              // </div>
+//             </Grid.Row>
+//             <Grid.Row columns={3}>
+//               <Grid.Column>
+//                 <Segment style={{
+//                   display: 'flex',
+//                   flexDirection: 'column',
+//                   justifyContent: 'center',
+//                   alignItems: 'center',
+//                   margin: 20,
+//                 }}>
+//                   <Image
+//                     src={images['outline.png']}
+//                     size='tiny'
+//                     alt="card outline"
+//                   />
+//                 </Segment>
+//               </Grid.Column>
+//               <Grid.Column>
+//                 <Segment style={{
+//                   display: 'flex',
+//                   flexDirection: 'column',
+//                   alignItems: 'center',
+//                   justifyContent: 'center',
+//                   margin: 20,
+//                 }}>
+//                   {this.state.showingCard.map( card => {
+//                     let name = `${card.name} of ${card.suit}`
+//                     return(
+//                       <Image
+//                         key={card.id}
+//                         src={images[`${card.image}`]}
+//                         size='tiny'
+//                         alt={name}
+//                       />
+//                     )
+//                   })}
+//                   <Button style={{margin: 10}} onClick={this.nextRound}>Next Round</Button>
+//                 </Segment>
+//               </Grid.Column>
+//               <Grid.Column>
+//                 <Segment style={{
+//                   display: 'flex',
+//                   flexDirection: 'column',
+//                   justifyContent: 'center',
+//                   alignItems: 'center',
+//                   margin: 20,
+//                 }}>
+//                   <Image
+//                     src={images['outline.png']}
+//                     size='tiny'
+//                     alt="card outline"
+//                   />
+//                 </Segment>
+//               </Grid.Column>
+//             </Grid.Row>
+//             <Grid.Row textAlign='center' style={{backgroundColor: 'yellow'}}>
+//               <Header>Player One</Header>
+              // <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+              //   {this.state.playerOne.map( card => {
+              //     let name = `${card.name} of ${card.suit}`
+              //     return(
+              //       <Image
+              //         key={card.id}
+              //         src={images[`${card.image}`]}
+              //         size='tiny'
+              //         alt={name}
+              //       />
+              //     )
+              //   })}
+              // </div>
+//             </Grid.Row>
+//           </Grid.Column>
+//           <Grid.Column textAlign='center' width={3} style={{backgroundColor: 'blue'}}>
+//             <Header>Player Four</Header>
+            // <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            //   {this.state.playerFour.map( card => {
+            //     let name = `${card.name} of ${card.suit}`
+            //     return(
+            //       <Image
+            //         key={card.id}
+            //         src={images[`${card.image}`]}
+            //         size='tiny'
+            //         alt={name}
+            //       />
+            //     )
+            //   })}
+            // </div>
+//           </Grid.Column>
+//         </Grid>
+//       )
+//     } else {
+//       return(
+//         <Button onClick={this.roundDeal}>Deal Round</Button>
+//       )
+//     }
+//   }
+// }
+
+ render() {
+   const { started, round } = this.state;
+   let px = 'px'
+   return(
+     <div style={styles.gameboard}>
+       <div style={styles.column} class="player-2">
+        <Header>Player Two</Header>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          {this.state.playerTwo.map( (card, i) => {
+            let name = `${card.name} of ${card.suit}`
+            return(
+              <Image
+                key={card.id}
+                src={images['card.png']}
+                style={{
+                  transform: 'rotate(90deg)',
+                  position: 'relative',
+                  zIndex: i,
+                  top: `${-100 * i}` + px
+                }}
+                size='tiny'
+                alt={name}
+              />
+            )
+          })}
+        </div>
+       </div>
+       <div style={styles.column} class="main-column">
+         <div class="player-3">
+          <Header textAlign="center">Player Three</Header>
+          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+            {this.state.playerThree.map( (card, i) => {
+              let name = `${card.name} of ${card.suit}`
+              return(
+                <Image
+                  key={card.id}
+                  src={images['card.png']}
+                  style={{
+                    position: 'relative',
+                    zIndex: i,
+                    left: `${-50 * i}` + px
+                  }}
+                  size='tiny'
+                  alt={name}
+                />
+              )
+            })}
+          </div>
+         </div>
+         <div style={styles.column} class="common-table">
+           <div style={{marginTop: 10}} class="hand-3">
+             <Image
+               src={images['outline.png']}
+               size='tiny'
+               alt="card outline"
+             />
+           </div>
+           <div style={styles.row} class="center-row">
+             <div class="hand-2">
+               <Image
+                 src={images['outline.png']}
+                 size='tiny'
+                 alt="card outline"
+               />
+             </div>
+             <div className="trump"
+               style={{
+                 display: 'flex',
+                 flexDirection: 'column',
+                 justifyContent: 'space-around',
+                 alignItems: 'center',
+                 margin: 20,
+               }}
+              >
+               {this.state.showingCard.map( card => {
+                 let name = `${card.name} of ${card.suit}`
+                 return(
+                   <Image
+                     key={card.id}
+                     src={images[`${card.image}`]}
+                     size='tiny'
+                     alt={name}
+                   />
+                 )
+               })}
+               { started ?
+                 <Button style={{margin: 10}} onClick={this.nextRound}>Next Round</Button>
+                 :
+                 <Button style={{margin: 10}} onClick={this.startGame}>Start Game</Button>
+               }
+             </div>
+             <div className="hand-4">
+               <Image
+                 src={images['outline.png']}
+                 size='tiny'
+                 alt="card outline"
+               />
+             </div>
+           </div>
+           <div style={{marginBottom: 10}}  class="hand-1">
+             <Image
+               src={images['outline.png']}
+               size='tiny'
+               alt="card outline"
+             />
+           </div>
+         </div>
+         <div class="player-1">
+          <Header>Player One</Header>
+          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+            {this.state.playerOne.map( (card, i) => {
+              let name = `${card.name} of ${card.suit}`
+              return(
+                <Image
+                  key={card.id}
+                  src={images[`${card.image}`]}
+                  style={{
+                    position: 'relative',
+                    zIndex: i,
+                    left: `${-50 * i}` + px
+                  }}
+                  size='tiny'
+                  alt={name}
+                />
+              )
+            })}
+          </div>
+         </div>
+       </div>
+       <div style={styles.column} class="player-4">
+        <Header>Player Four</Header>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          {this.state.playerFour.map( (card, i) => {
+            let name = `${card.name} of ${card.suit}`
+            return(
+              <Image
+                key={card.id}
+                src={images['card.png']}
+                style={{
+                  transform: 'rotate(90deg)',
+                  position: 'relative',
+                  zIndex: i,
+                  top: `${-100 * i}` + px
+                }}
+                size='tiny'
+                alt={name}
+              />
+            )
+          })}
+        </div>
+       </div>
+     </div>
+    )
   }
 }
 
 //TODO:create controller to get cards.
 
 const styles = {
+  gameboard: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#50cb8e',
+  },
+  column: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    margin: 50,
+  },
+  row: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+  },
   container: {
     display: 'flex',
   },
