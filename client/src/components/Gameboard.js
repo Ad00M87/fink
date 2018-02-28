@@ -449,4 +449,6 @@ const styles = {
   }
 }
 
+//Need to control the space that the cards take up
+
 export default Gameboard;
