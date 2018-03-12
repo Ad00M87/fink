@@ -451,5 +451,6 @@ const styles = {
 
 //Need to control the space that the cards take up. Right now with the relative
 //spacing there is still space being taken up.
+//Need to change to styled components for ease of display.
 
 export default Gameboard;
